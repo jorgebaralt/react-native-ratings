@@ -10,15 +10,12 @@ import Star from './Star'
 export default class AirbnbRating extends Component {
   static defaultProps = {
     defaultRating: 5,
-    reviews: ["Terrible", "Bad", "Okay", "Good", "Great"],
     count: 5,
-    onFinishRating: () => console.log('Rating selected. Attach a function here.'),
     showRating: true
   };
 
   constructor() {
     super()
-
     this.state = {
       position: 5
     }
@@ -38,10 +35,10 @@ export default class AirbnbRating extends Component {
 
   starSelectedInPosition(position) {
     const { onFinishRating } = this.props
-
-    onFinishRating(position);
-
-    this.setState({ position: position })
+    if (onFinishRating) {
+      onFinishRating(position);
+      this.setState({ position: position })
+    }
   }
 
   render() {
@@ -63,11 +60,6 @@ export default class AirbnbRating extends Component {
 
     return (
       <View style={styles.ratingContainer}>
-        { showRating &&
-          <Text style={styles.reviewText}>
-            {reviews[position - 1]}
-          </Text>
-        }
         <View style={styles.starContainer}>
           {this.renderStars(rating_array)}
         </View>
